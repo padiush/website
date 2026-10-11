@@ -94,6 +94,17 @@
     --noise: 0;
 }
 
+/*
+  From daisyUI 5.1 a ghost button takes the page's text colour. On the green
+  header that inverts the logo and the theme and language controls against
+  the links beside them, so there they take the header's colour, as they do
+  in the platform.
+*/
+.navbar .btn-ghost {
+    --btn-fg: currentColor;
+    --btn-rest-fg: currentColor;
+}
+
 @theme {
     --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
 }
