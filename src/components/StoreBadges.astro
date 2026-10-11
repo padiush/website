@@ -1,0 +1,58 @@
+---
+import { APP_STORE_URL, useTranslations, type Locale } from '../i18n';
+
+interface Props {
+    locale: Locale;
+    /** `onPrimary` when the badges sit on the green header colour. */
+    tone?: 'default' | 'onPrimary';
+    class?: string;
+}
+
+const { locale, tone = 'default', class: className = '' } = Astro.props;
+const t = useTranslations(locale);
+
+/*
+ * Apple's badge artwork, unaltered, in the visitor's language: black on the
+ * light theme and white on the dark one, as Apple's guidelines allow. 40px is
+ * the smallest on-screen height they permit.
+ *
+ * Google Play's badge may only point at a published listing, so until the app
+ * is public there it is announced in plain text instead.
+ */
+const badge = (colour: 'black' | 'white') =>
+    `/site/badges/app-store-${locale}-${colour}.svg`;
+---
+
+<div class={`flex flex-wrap items-center gap-3 ${className}`}>
+    <a
+        href={APP_STORE_URL}
+        class="inline-block rounded-[0.4rem] focus-visible:outline-2 focus-visible:outline-offset-2"
+        rel="noopener"
+    >
+        <img
+            src={badge('black')}
+            alt={t('store.app_store')}
+            width="120"
+            height="40"
+            class="block h-10 w-auto [[data-theme=padiushdark]_&]:hidden"
+        />
+        <img
+            src={badge('white')}
+            alt=""
+            aria-hidden="true"
+            width="120"
+            height="40"
+            class="hidden h-10 w-auto [[data-theme=padiushdark]_&]:block"
+        />
+    </a>
+    <span
+        class:list={[
+            'inline-flex h-10 items-center rounded-[0.4rem] border border-dashed px-3 text-sm font-medium',
+            tone === 'onPrimary'
+                ? 'border-primary-content/50 text-primary-content/85'
+                : 'border-base-content/30 text-base-content/70',
+        ]}
+    >
+        {t('store.play_soon')}
+    </span>
+</div>

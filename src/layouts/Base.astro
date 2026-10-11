@@ -1,0 +1,148 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import {
+    DEFAULT_LOCALE,
+    LANGUAGE_TAGS,
+    LOCALES,
+    PAGES,
+    type Locale,
+    type Page,
+    useTranslations,
+} from '../i18n';
+
+interface Props {
+    locale: Locale;
+    page: Page;
+    title: string;
+    description: string;
+}
+
+const { locale, page, title, description } = Astro.props;
+const t = useTranslations(locale);
+
+const site = Astro.site ?? new URL('https://padiushbio.com');
+const canonical = new URL(PAGES[page][locale], site).href;
+const ogImage = new URL('/site/og-card.png', site).href;
+
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC;
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+
+// Where this page lives in the other languages, for the language cookie's
+// redirect. Only the Spanish pages redirect: they are the ones people reach
+// by typing the address, while a prefixed link was chosen on purpose.
+const alternates = Object.fromEntries(
+    LOCALES.map((other) => [other, PAGES[page][other]]),
+);
+---
+
+<!doctype html>
+<html lang={LANGUAGE_TAGS[locale].html} data-theme="padiushlight">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        {LOCALES.map((other) => (
+            <link
+                rel="alternate"
+                hreflang={LANGUAGE_TAGS[other].html}
+                href={new URL(PAGES[page][other], site).href}
+            />
+        ))}
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href={new URL(PAGES[page][DEFAULT_LOCALE], site).href}
+        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Padiush" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content={LANGUAGE_TAGS[locale].og} />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        {/* The App Store's own banner on iPhone, on the public pages only. */}
+        <meta name="apple-itunes-app" content="app-id=6819470290" />
+
+        {/*
+            Resolve the theme before first paint, exactly as the platform
+            does: the stored choice wins, otherwise the OS preference. Both
+            share the `theme` key, so the choice follows a visitor across.
+        */}
+        <script is:inline>
+            try {
+                document.documentElement.dataset.theme =
+                    localStorage.getItem('theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches
+                        ? 'padiushdark'
+                        : 'padiushlight');
+            } catch (e) {}
+        </script>
+        {/*
+            The platform reads its language from the `i18next` cookie, so
+            setting it here carries the visitor's language into the contact
+            form, the sign-in page and the legal pages. A visitor whose cookie
+            already names another language, landing on a Spanish page, is
+            taken to that page in their language.
+        */}
+        <script
+            is:inline
+            define:vars={{
+                locale,
+                alternates,
+                defaultLocale: DEFAULT_LOCALE,
+            }}
+        >
+            try {
+                const match = document.cookie.match(/(?:^|; )i18next=([^;]*)/);
+                const stored =
+                    match && decodeURIComponent(match[1]).slice(0, 2);
+
+                if (
+                    locale === defaultLocale &&
+                    stored &&
+                    stored !== locale &&
+                    alternates[stored]
+                ) {
+                    location.replace(alternates[stored] + location.hash);
+                } else {
+                    document.cookie =
+                        'i18next=' +
+                        locale +
+                        '; path=/; max-age=31536000; samesite=lax';
+                }
+            } catch (e) {}
+        </script>
+        {umamiSrc && umamiWebsiteId && (
+            <script
+                is:inline
+                defer
+                src={umamiSrc}
+                data-website-id={umamiWebsiteId}
+                data-do-not-track="true"
+            />
+        )}
+    </head>
+    <body class="bg-base-100 text-base-content min-h-screen antialiased">
+        <a
+            href="#content"
+            class="btn btn-sm bg-base-100 text-base-content sr-only fixed top-2 left-2 z-50 focus:not-sr-only"
+        >
+            {t('nav.skip')}
+        </a>
+        <Header locale={locale} page={page} />
+        <main id="content">
+            <slot />
+        </main>
+        <Footer locale={locale} />
+    </body>
+</html>

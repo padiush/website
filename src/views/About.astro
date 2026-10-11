@@ -1,0 +1,171 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../components/Icon.astro';
+import { PLATFORM, useTranslations, type Locale } from '../i18n';
+import Base from '../layouts/Base.astro';
+import mercedes from '../assets/team/mercedes.webp';
+import rodrigo from '../assets/team/rodrigo.webp';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const THREE = [1, 2, 3] as const;
+
+/*
+ * ORCID comes first among each person's links: it identifies a researcher
+ * unambiguously, which is what a reader arriving from a paper is after.
+ */
+const team = [
+    {
+        photo: mercedes,
+        name: 'Mercedes Menéndez',
+        role: t('about.role_biologist'),
+        links: [
+            {
+                icon: 'orcid',
+                href: 'https://orcid.org/0009-0007-8862-8618',
+                label: 'ORCID',
+            },
+            {
+                icon: 'linkedin',
+                href: 'https://www.linkedin.com/in/mercedes-men%C3%A9ndez-5209381b9/',
+                label: 'LinkedIn',
+            },
+            {
+                icon: 'bookOpen',
+                href: 'https://publicaciones.mercedesmenendez.com',
+                label: t('about.publications'),
+            },
+            {
+                icon: 'envelope',
+                href: 'mailto:mercedes@padiushbio.com',
+                label: 'Email',
+            },
+        ],
+    },
+    {
+        photo: rodrigo,
+        name: 'Rodrigo Arévalo',
+        role: t('about.role_developer'),
+        links: [
+            {
+                icon: 'orcid',
+                href: 'https://orcid.org/0009-0008-0614-1417',
+                label: 'ORCID',
+            },
+            {
+                icon: 'github',
+                href: 'https://github.com/raarevalo96',
+                label: 'GitHub',
+            },
+            {
+                icon: 'envelope',
+                href: 'mailto:rodrigo@padiushbio.com',
+                label: 'Email',
+            },
+        ],
+    },
+] as const;
+---
+
+<Base
+    locale={locale}
+    page="about"
+    title={t('meta.about_title')}
+    description={t('meta.about_description')}
+>
+    <section class="bg-primary text-primary-content">
+        <div class="mx-auto max-w-3xl px-6 py-16 md:py-20">
+            <h1 class="text-3xl font-bold text-balance md:text-5xl">
+                {t('about.welcome')}
+            </h1>
+            <p class="text-primary-content/85 mt-5 text-lg md:text-xl">
+                {t('about.lead')}
+            </p>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 py-14 md:py-20">
+        <div class="text-base-content/80 space-y-5 text-lg leading-relaxed">
+            <p>{t('about.p1')}</p>
+            <p>{t('about.p2')}</p>
+            <p>{t('about.p3')}</p>
+            {/*
+                Someone deciding whether to trust a tool with their informants'
+                data can check the code rather than take it on faith.
+            */}
+            <p>
+                {t('about.open_source')}{' '}
+                <a href={PLATFORM.software} class="link link-primary">
+                    {t('footer.software')}
+                </a>
+                .
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-base-200">
+        <div class="mx-auto max-w-7xl px-6 py-16 md:py-20">
+            <h2 class="text-3xl font-bold md:text-4xl">
+                {t('about.how_title')}
+            </h2>
+            <div class="mt-10 grid gap-8 md:grid-cols-3">
+                {THREE.map((n) => (
+                    <div>
+                        <h3 class="border-primary border-l-4 pl-3 text-lg font-semibold">
+                            {t(`about.how_${n}_title`)}
+                        </h3>
+                        <p class="text-base-content/70 mt-3">
+                            {t(`about.how_${n}_desc`)}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-4xl px-6 py-16 md:py-20">
+        <h2 class="text-center text-3xl font-bold md:text-4xl">
+            {t('about.team')}
+        </h2>
+        <div class="mt-10 grid gap-10 sm:grid-cols-2">
+            {team.map((person) => (
+                <div class="flex flex-col items-center text-center">
+                    <Image
+                        src={person.photo}
+                        alt={person.name}
+                        width={160}
+                        height={160}
+                        densities={[1, 2]}
+                        class="border-base-300 h-40 w-40 rounded-full border object-cover"
+                    />
+                    <p class="mt-4 text-xl font-semibold">{person.name}</p>
+                    <p class="text-base-content/60">{person.role}</p>
+                    <div class="mt-3 flex gap-4 text-xl">
+                        {person.links.map((link) => (
+                            <a
+                                href={link.href}
+                                target={
+                                    link.href.startsWith('mailto:')
+                                        ? undefined
+                                        : '_blank'
+                                }
+                                rel="noreferrer"
+                                class="text-base-content/70 hover:text-primary"
+                            >
+                                <Icon
+                                    name={link.icon}
+                                    label={`${link.label} — ${person.name}`}
+                                />
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    </section>
+</Base>

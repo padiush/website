@@ -1,0 +1,203 @@
+---
+import Capability from '../components/Capability.astro';
+import CaptureDevice from '../components/CaptureDevice.astro';
+import Screenshot from '../components/Screenshot.astro';
+import StoreBadges from '../components/StoreBadges.astro';
+import { PLATFORM, useTranslations, type Locale } from '../i18n';
+import Base from '../layouts/Base.astro';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const INDICES = ['FC', 'RFC', 'NU', 'UV', 'CI', 'RI', 'CV', 'ICF', 'FL'];
+const FOUR = [1, 2, 3, 4] as const;
+
+/*
+ * The primary call to action creates an account, because the production
+ * instance has open registration. A visitor who is already signed in is sent
+ * on to the dashboard by the platform's own /register route.
+ */
+---
+
+<Base
+    locale={locale}
+    page="home"
+    title={t('meta.home_title')}
+    description={t('meta.home_description')}
+>
+    <section class="from-primary to-primary/80 text-primary-content bg-gradient-to-br">
+        <div class="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:gap-14 lg:py-24">
+            <div>
+                <h1 class="text-3xl leading-tight font-bold text-balance md:text-5xl">
+                    {t('home.hero_title')}
+                </h1>
+                <p class="text-primary-content/85 mt-5 text-lg md:text-xl">
+                    {t('home.hero_subtitle')}
+                </p>
+                <div class="mt-8 flex flex-wrap gap-3">
+                    <a
+                        href={PLATFORM.register}
+                        class="btn btn-lg [--btn-bg:var(--color-base-100)] [--btn-border:var(--color-base-100)] [--btn-fg:var(--color-base-content)]"
+                    >
+                        {t('home.cta_create_account')}
+                    </a>
+                    {/*
+                        daisyUI's .btn sets its colours through its own
+                        variables, which beat a plain text-* utility; set them
+                        there or the outline disappears against the green.
+                    */}
+                    <a
+                        href="#how-it-works"
+                        class="btn btn-lg [--btn-bg:transparent] [--btn-border:var(--color-primary-content)] [--btn-fg:var(--color-primary-content)]"
+                    >
+                        {t('home.cta_how_it_works')}
+                    </a>
+                </div>
+                <p class="text-primary-content/70 mt-6 text-sm">
+                    {t('home.hero_note')}
+                </p>
+            </div>
+
+            <div class="min-w-0">
+                <Screenshot name="reports" locale={locale} chrome />
+                <p class="text-primary-content/70 mt-3 text-center text-xs">
+                    {t('home.preview_caption')}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section
+        id="how-it-works"
+        class="mx-auto max-w-7xl scroll-mt-20 px-6 py-16 md:py-24"
+    >
+        <div class="mx-auto max-w-2xl text-center">
+            <h2 class="text-3xl font-bold text-balance md:text-4xl">
+                {t('home.workflow_title')}
+            </h2>
+            <p class="text-base-content/70 mt-4 text-lg">
+                {t('home.workflow_subtitle')}
+            </p>
+        </div>
+
+        <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {FOUR.map((step) => (
+                <li class="border-base-300 bg-base-100 rounded-box border p-6">
+                    <span class="bg-primary text-primary-content flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold">
+                        {step}
+                    </span>
+                    <h3 class="mt-4 text-lg font-semibold">
+                        {t(`home.workflow_${step}_title`)}
+                    </h3>
+                    <p class="text-base-content/70 mt-2 text-sm">
+                        {t(`home.workflow_${step}_desc`)}
+                    </p>
+                </li>
+            ))}
+        </ol>
+    </section>
+
+    <Capability
+        id="field-app"
+        kicker={t('home.capture_kicker')}
+        title={t('home.capture_title')}
+        description={t('home.capture_desc')}
+        points={FOUR.map((n) => t(`home.capture_point_${n}`))}
+        tinted
+    >
+        <StoreBadges slot="extra" locale={locale} class="mt-8" />
+        <CaptureDevice locale={locale} />
+    </Capability>
+
+    <Capability
+        kicker={t('home.records_kicker')}
+        title={t('home.records_title')}
+        description={t('home.records_desc')}
+        points={FOUR.map((n) => t(`home.records_point_${n}`))}
+        reversed
+    >
+        <Screenshot name="records" locale={locale} chrome />
+    </Capability>
+
+    <Capability
+        kicker={t('home.taxonomy_kicker')}
+        title={t('home.taxonomy_title')}
+        description={t('home.taxonomy_desc')}
+        points={FOUR.map((n) => t(`home.taxonomy_point_${n}`))}
+        tinted
+    >
+        <Screenshot name="catalog" locale={locale} chrome />
+    </Capability>
+
+    <Capability
+        kicker={t('home.analysis_kicker')}
+        title={t('home.analysis_title')}
+        description={t('home.analysis_desc')}
+        points={FOUR.map((n) => t(`home.analysis_point_${n}`))}
+        reversed
+    >
+        <div slot="extra" class="mt-6">
+            <p class="text-base-content/60 text-[0.6875rem] font-semibold tracking-[0.16em] uppercase">
+                {t('home.analysis_indices_label')}
+            </p>
+            <div class="mt-3 flex flex-wrap gap-2">
+                {INDICES.map((index) => (
+                    <span class="border-primary/30 bg-primary/10 rounded-full border px-3 py-1 font-mono text-sm">
+                        {index}
+                    </span>
+                ))}
+            </div>
+        </div>
+        <Screenshot name="sankey" locale={locale} />
+    </Capability>
+
+    <section class="bg-base-200">
+        <div class="mx-auto max-w-7xl px-6 py-16 md:py-24">
+            <h2 class="text-center text-3xl font-bold text-balance md:text-4xl">
+                {t('home.trust_title')}
+            </h2>
+            <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                {FOUR.map((n) => (
+                    <div>
+                        <h3 class="border-primary border-l-4 pl-3 text-lg font-semibold">
+                            {t(`home.trust_${n}_title`)}
+                        </h3>
+                        <p class="text-base-content/70 mt-3 text-sm">
+                            {t(`home.trust_${n}_desc`)}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-primary text-primary-content">
+        <div class="mx-auto flex max-w-3xl flex-col items-center gap-5 px-6 py-16 text-center md:py-20">
+            <h2 class="text-3xl font-bold text-balance md:text-4xl">
+                {t('home.final_cta_title')}
+            </h2>
+            <p class="text-primary-content/85 text-lg">
+                {t('home.final_cta_desc')}
+            </p>
+            <a
+                href={PLATFORM.register}
+                class="btn btn-lg [--btn-bg:var(--color-base-100)] [--btn-border:var(--color-base-100)] [--btn-fg:var(--color-base-content)]"
+            >
+                {t('home.cta_create_account')}
+            </a>
+            <p class="text-primary-content/80 mt-2 text-sm">
+                {t('home.final_cta_contact')}{' '}
+                <a
+                    href={PLATFORM.contact}
+                    class="link font-semibold text-[inherit]"
+                >
+                    {t('home.cta_contact')}
+                </a>
+            </p>
+        </div>
+    </section>
+</Base>

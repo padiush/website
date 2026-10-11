@@ -1,0 +1,58 @@
+---
+import { PLATFORM, pagePath, useTranslations, type Locale } from '../i18n';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import StoreBadges from './StoreBadges.astro';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<footer class="footer sm:footer-horizontal bg-base-300 text-base-content p-10">
+    <aside>
+        <Logo class="text-primary h-12 w-auto fill-current" />
+        <p class="text-base-content/70 max-w-xs">{t('footer.tagline')}</p>
+    </aside>
+    <nav>
+        <h2 class="footer-title">{t('footer.about')}</h2>
+        <a class="link link-hover" href={pagePath('about', locale)}>
+            {t('nav.about')}
+        </a>
+        <a class="link link-hover" href={PLATFORM.contact}>
+            {t('nav.contact')}
+        </a>
+        <span>{t('footer.made_with_love')}</span>
+    </nav>
+    <nav>
+        <h2 class="footer-title">{t('footer.legal')}</h2>
+        <a class="link link-hover" href={PLATFORM.privacy}>
+            {t('footer.privacy')}
+        </a>
+        <a class="link link-hover" href={PLATFORM.terms}>
+            {t('footer.terms')}
+        </a>
+        {/* The platform's offer of source under the AGPL. */}
+        <a class="link link-hover" href={PLATFORM.software}>
+            {t('footer.software')}
+        </a>
+    </nav>
+    <div>
+        <h2 class="footer-title">{t('footer.app')}</h2>
+        <StoreBadges locale={locale} class="flex-col items-start" />
+    </div>
+    <nav>
+        <h2 class="footer-title">{t('footer.social')}</h2>
+        <a
+            href="https://linkedin.com/company/padiushbio"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-primary text-3xl"
+        >
+            <Icon name="linkedin" label="LinkedIn" />
+        </a>
+    </nav>
+</footer>

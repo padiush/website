@@ -1,0 +1,25 @@
+---
+import { ICONS, type IconName } from './icons';
+
+interface Props {
+    name: IconName;
+    class?: string;
+    /** Set when the icon is the only thing naming its control. */
+    label?: string;
+}
+
+const { name, class: className = 'h-[1em] w-auto', label } = Astro.props;
+const icon = ICONS[name];
+---
+
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox={icon.viewBox}
+    class={`inline-block shrink-0 fill-current ${className}`}
+    role={label ? 'img' : undefined}
+    aria-label={label}
+    aria-hidden={label ? undefined : 'true'}
+    focusable="false"
+>
+    <path d={icon.d}></path>
+</svg>

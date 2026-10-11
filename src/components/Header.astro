@@ -1,0 +1,151 @@
+---
+import {
+    LANGUAGE_NAMES,
+    LOCALES,
+    PAGES,
+    PLATFORM,
+    pagePath,
+    useTranslations,
+    type Locale,
+    type Page,
+} from '../i18n';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+    locale: Locale;
+    page: Page;
+}
+
+const { locale, page } = Astro.props;
+const t = useTranslations(locale);
+
+const links = [
+    ...(page === 'home'
+        ? []
+        : [{ href: pagePath('home', locale), label: t('nav.home') }]),
+    {
+        href: pagePath('about', locale),
+        label: t('nav.about'),
+        current: page === 'about',
+    },
+    { href: PLATFORM.contact, label: t('nav.contact') },
+    { href: PLATFORM.login, label: t('nav.login') },
+];
+---
+
+<header class="navbar bg-primary text-primary-content sticky top-0 z-40 gap-1">
+    <div class="navbar-start">
+        {/* A <details> menu opens without JavaScript. */}
+        <details class="dropdown lg:hidden" data-closes-on-outside-click>
+            <summary
+                class="btn btn-ghost btn-square list-none"
+                aria-label={t('nav.open_menu')}
+            >
+                <Icon name="bars" class="h-5 w-5" />
+            </summary>
+            <ul class="menu dropdown-content bg-base-200 text-base-content rounded-box z-50 mt-3 w-56 p-2 shadow-sm">
+                {links.map((link) => (
+                    <li>
+                        <a
+                            href={link.href}
+                            aria-current={link.current ? 'page' : undefined}
+                        >
+                            {link.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </details>
+        <a
+            class="btn btn-ghost px-2"
+            href={pagePath('home', locale)}
+            aria-label="Padiush"
+        >
+            <Logo class="h-10 w-auto fill-current" />
+        </a>
+    </div>
+
+    <div class="navbar-end gap-1">
+        <ul class="menu menu-horizontal hidden px-1 lg:flex">
+            {links.map((link) => (
+                <li>
+                    <a
+                        href={link.href}
+                        aria-current={link.current ? 'page' : undefined}
+                    >
+                        {link.label}
+                    </a>
+                </li>
+            ))}
+        </ul>
+
+        <ThemeToggle locale={locale} />
+
+        <details class="dropdown dropdown-end" data-closes-on-outside-click>
+            <summary
+                class="btn btn-ghost list-none gap-2 px-3"
+                aria-label={t('nav.language')}
+            >
+                <Icon name="language" class="h-5 w-5" />
+                <span class="hidden sm:inline">{LANGUAGE_NAMES[locale]}</span>
+                <span class="uppercase sm:hidden">{locale}</span>
+            </summary>
+            <ul class="menu dropdown-content bg-base-200 text-base-content rounded-box z-50 mt-3 w-52 p-2 shadow-sm">
+                {LOCALES.map((other) => (
+                    <li>
+                        <a
+                            href={PAGES[page][other]}
+                            hreflang={other}
+                            lang={other}
+                            data-locale={other}
+                            aria-current={other === locale ? 'true' : undefined}
+                            class:list={[{ 'menu-active': other === locale }]}
+                        >
+                            {LANGUAGE_NAMES[other]}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </details>
+    </div>
+</header>
+
+<script>
+    // Choosing a language is a deliberate choice, so it is stored before the
+    // page changes; otherwise the Spanish pages would send the visitor back to
+    // the language the cookie remembered.
+    document
+        .querySelectorAll<HTMLAnchorElement>('a[data-locale]')
+        .forEach((link) => {
+            link.addEventListener('click', () => {
+                document.cookie = `i18next=${link.dataset.locale}; path=/; max-age=31536000; samesite=lax`;
+            });
+        });
+
+    // A <details> dropdown stays open until its summary is clicked again;
+    // close it when the visitor clicks or tabs anywhere else.
+    const menus = document.querySelectorAll<HTMLDetailsElement>(
+        'details[data-closes-on-outside-click]',
+    );
+    const closeOthers = (target: EventTarget | null) => {
+        menus.forEach((menu) => {
+            if (!(target instanceof Node) || !menu.contains(target)) {
+                menu.open = false;
+            }
+        });
+    };
+    document.addEventListener('click', (event) => closeOthers(event.target));
+    document.addEventListener('focusin', (event) => closeOthers(event.target));
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            menus.forEach((menu) => {
+                if (menu.open) {
+                    menu.open = false;
+                    menu.querySelector('summary')?.focus();
+                }
+            });
+        }
+    });
+</script>

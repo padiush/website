@@ -1,0 +1,54 @@
+---
+import { useTranslations, type Locale } from '../i18n';
+import { SHOTS, type ShotName } from './shots';
+
+interface Props {
+    name: ShotName;
+    locale: Locale;
+    /** Draws a window frame above the shot. */
+    chrome?: boolean;
+    class?: string;
+}
+
+const { name, locale, chrome = false, class: className = '' } = Astro.props;
+const t = useTranslations(locale);
+const [width, height] = SHOTS[name];
+
+/*
+ * Two files per shot and language, and CSS shows the one matching the reader's theme: a
+ * bright screenshot dropped into a dark page looks like a mistake. Everything
+ * pictured comes from the platform's example study, so no real interview data
+ * appears here. See scripts/capture-screenshots.mjs.
+ */
+---
+
+<figure
+    class={`bg-base-100 border-base-300 rounded-box overflow-hidden border shadow-xl ${className}`}
+>
+    {chrome && (
+        <div class="bg-base-200 border-base-300 flex items-center gap-1.5 border-b px-4 py-2.5">
+            <span class="bg-base-content/20 h-2.5 w-2.5 rounded-full" />
+            <span class="bg-base-content/20 h-2.5 w-2.5 rounded-full" />
+            <span class="bg-base-content/20 h-2.5 w-2.5 rounded-full" />
+        </div>
+    )}
+    <img
+        src={`/site/shots/${name}-${locale}-light.webp`}
+        alt={t(`shots.${name}_alt`)}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+        class="block h-auto w-full [[data-theme=padiushdark]_&]:hidden"
+    />
+    <img
+        src={`/site/shots/${name}-${locale}-dark.webp`}
+        alt=""
+        aria-hidden="true"
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+        class="hidden h-auto w-full [[data-theme=padiushdark]_&]:block"
+    />
+</figure>

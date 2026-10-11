@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/montserrat';
+
+/*
+  The palette is the platform's own, copied rather than shared: the site and
+  the platform deploy separately, and a visitor crossing from one to the other
+  (to sign in, or to the contact form) should not notice the seam. Keep both
+  themes in step with resources/css/app.css in the platform repository.
+*/
+@plugin 'daisyui' {
+    themes:
+        padiushlight --default,
+        padiushdark;
+}
+
+@plugin 'daisyui/theme' {
+    name: 'padiushlight';
+    default: true;
+    prefersdark: false;
+    color-scheme: 'light';
+    --color-base-100: oklch(97% 0 0);
+    --color-base-200: oklch(92% 0 0);
+    --color-base-300: oklch(87% 0 0);
+    --color-base-content: oklch(14% 0.004 49.25);
+    --color-primary: oklch(45% 0.124 130.933);
+    --color-primary-content: oklch(98% 0.031 120.757);
+    --color-secondary: oklch(50% 0.118 165.612);
+    --color-secondary-content: oklch(97% 0.021 166.113);
+    --color-accent: oklch(79% 0.209 151.711);
+    --color-accent-content: oklch(26% 0.065 152.934);
+    --color-neutral: oklch(70% 0 0);
+    --color-neutral-content: oklch(14% 0.004 49.25);
+    --color-info: oklch(60% 0.126 221.723);
+    --color-info-content: oklch(98% 0.019 200.873);
+    --color-success: oklch(59% 0.145 163.225);
+    --color-success-content: oklch(97% 0.021 166.113);
+    --color-warning: oklch(66% 0.179 58.318);
+    --color-warning-content: oklch(98% 0.022 95.277);
+    /* 58% lightness only reached 4.22:1 on base-100, so required markers and
+       validation messages sat just under the 4.5:1 minimum. */
+    --color-error: oklch(51% 0.235 17.585);
+    --color-error-content: oklch(96% 0.015 12.422);
+    --radius-selector: 0.5rem;
+    --radius-field: 0.5rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.28125rem;
+    --size-field: 0.28125rem;
+    --border: 1.5px;
+    --depth: 0;
+    --noise: 0;
+}
+
+/*
+  Dark counterpart of padiushlight: same olive-green hue family
+  (h≈131/137) with dark, slightly green-tinted surfaces and brightened
+  brand/status colors for contrast on them. Selection happens purely
+  via data-theme, stamped before paint by the inline script in
+  app.blade.php (stored choice, else OS preference) — a CSS prefersdark
+  media block would override an explicit light choice for OS-dark
+  users because daisyUI emits it after [data-theme=padiushlight].
+*/
+@plugin 'daisyui/theme' {
+    name: 'padiushdark';
+    default: false;
+    prefersdark: false;
+    color-scheme: 'dark';
+    --color-base-100: oklch(0.23 0.012 137.84);
+    --color-base-200: oklch(0.2 0.012 137.84);
+    --color-base-300: oklch(0.17 0.012 137.84);
+    --color-base-content: oklch(0.91 0.02 137.84);
+    --color-primary: oklch(0.62 0.12 130.933);
+    --color-primary-content: oklch(0.16 0.04 130.933);
+    --color-secondary: oklch(0.64 0.11 165.612);
+    --color-secondary-content: oklch(0.16 0.035 166.113);
+    --color-accent: oklch(0.79 0.209 151.711);
+    --color-accent-content: oklch(0.26 0.065 152.934);
+    --color-neutral: oklch(0.32 0.012 137.84);
+    --color-neutral-content: oklch(0.91 0.02 137.84);
+    --color-info: oklch(0.7 0.126 221.723);
+    --color-info-content: oklch(0.16 0.04 221.723);
+    --color-success: oklch(0.7 0.145 163.225);
+    --color-success-content: oklch(0.16 0.04 163.225);
+    --color-warning: oklch(0.75 0.16 58.318);
+    --color-warning-content: oklch(0.18 0.05 58.318);
+    --color-error: oklch(0.68 0.2 17.585);
+    --color-error-content: oklch(0.16 0.04 17.585);
+    --radius-selector: 0.5rem;
+    --radius-field: 0.5rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.28125rem;
+    --size-field: 0.28125rem;
+    --border: 1.5px;
+    --depth: 0;
+    --noise: 0;
+}
+
+@theme {
+    --font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+    }
+}
