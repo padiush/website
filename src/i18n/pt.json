@@ -59,13 +59,6 @@
         "capture_point_2": "Armazenamento local criptografado com SQLCipher; o app se recusa a capturar se a criptografia não estiver disponível",
         "capture_point_3": "Se a conexão cair, os arquivos grandes retomam o envio de onde pararam",
         "capture_point_4": "Você sempre sabe quando sincronizou pela última vez e o que falta enviar",
-        "capture_device_title": "Entrevistas",
-        "capture_device_synced": "Sincronizado há 5 min",
-        "capture_device_new": "Nova entrevista",
-        "capture_device_record": "Novo registro",
-        "capture_device_project": "Plantas úteis de San Antonio",
-        "capture_device_interviews": "12 entrevistas",
-        "capture_device_pending": "3 para enviar",
         "records_kicker": "Registros de campo",
         "records_title": "Cada exemplar, com sua história",
         "records_desc": "Documente observações e exemplares coletados com coordenadas, fotografias e uma nota de voz, pelo celular ou pela web. Um registro pode começar na resposta de uma entrevista que cita a planta, e fica vinculado a ela.",
@@ -105,7 +98,9 @@
         "reports_alt": "Tabela de índices etnobiológicos calculada na plataforma, com citações, RFC, UV e CI por espécie.",
         "records_alt": "Lista de registros de campo de um projeto, com observações e exemplares coletados.",
         "catalog_alt": "Catálogo de espécies do projeto, com nome científico, autoria e família botânica.",
-        "sankey_alt": "Diagrama de fluxos que conecta cada espécie às categorias de uso relatadas."
+        "sankey_alt": "Diagrama de fluxos que conecta cada espécie às categorias de uso relatadas.",
+        "app_interviews_alt": "A aba Entrevistas do aplicativo de campo: a última sincronização, o que falta enviar e as entrevistas salvas no celular.",
+        "app_record_alt": "Um registro de campo no aplicativo: um exemplar coletado de cravo-de-defunto, com seu número de coleta e sua fotografia."
     },
     "about": {
         "welcome": "Sistematizar o conhecimento sobre as plantas úteis",

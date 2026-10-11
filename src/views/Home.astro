@@ -1,6 +1,6 @@
 ---
+import AppScreens from '../components/AppScreens.astro';
 import Capability from '../components/Capability.astro';
-import CaptureDevice from '../components/CaptureDevice.astro';
 import Screenshot from '../components/Screenshot.astro';
 import StoreBadges from '../components/StoreBadges.astro';
 import { PLATFORM, useTranslations, type Locale } from '../i18n';
@@ -110,7 +110,7 @@ const FOUR = [1, 2, 3, 4] as const;
         tinted
     >
         <StoreBadges slot="extra" locale={locale} class="mt-8" />
-        <CaptureDevice locale={locale} />
+        <AppScreens locale={locale} />
     </Capability>
 
     <Capability

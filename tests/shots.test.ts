@@ -37,3 +37,17 @@ describe('screenshots', () => {
         },
     );
 });
+
+describe('field app screenshots', () => {
+    // AppScreens reserves 603 × 1311 for each; half the simulator's
+    // 1206 × 2622, so they stay sharp on a high-density screen.
+    it.each(['interviews', 'record'])(
+        '%s exists in every language at 603 × 1311',
+        (name) => {
+            for (const locale of LOCALES) {
+                const file = `public/site/app/${name}-${locale}.webp`;
+                expect(webpSize(file), file).toEqual([603, 1311]);
+            }
+        },
+    );
+});

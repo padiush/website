@@ -59,13 +59,6 @@
         "capture_point_2": "Almacén local cifrado con SQLCipher; la app se niega a capturar si el cifrado no está disponible",
         "capture_point_3": "Si la conexión se corta, los archivos grandes retoman el envío donde se quedaron",
         "capture_point_4": "Siempre sabes cuándo sincronizaste por última vez y qué queda por enviar",
-        "capture_device_title": "Entrevistas",
-        "capture_device_synced": "Sincronizado hace 5 min",
-        "capture_device_new": "Nueva entrevista",
-        "capture_device_record": "Nuevo registro",
-        "capture_device_project": "Plantas útiles de San Antonio",
-        "capture_device_interviews": "12 entrevistas",
-        "capture_device_pending": "3 por enviar",
         "records_kicker": "Registros de campo",
         "records_title": "Cada ejemplar, con su historia",
         "records_desc": "Documenta observaciones y ejemplares colectados con coordenadas, fotografías y una nota de voz, desde el teléfono o desde la web. Un registro puede comenzar en la respuesta de una entrevista que nombra la planta, y queda vinculado a ella.",
@@ -105,7 +98,9 @@
         "reports_alt": "Tabla de índices etnobiológicos calculada en la plataforma, con citas, RFC, UV y CI por especie.",
         "records_alt": "Lista de registros de campo de un proyecto, con observaciones y ejemplares colectados.",
         "catalog_alt": "Catálogo de especies del proyecto, con nombre científico, autoría y familia botánica.",
-        "sankey_alt": "Diagrama de flujos que conecta cada especie con las categorías de uso reportadas."
+        "sankey_alt": "Diagrama de flujos que conecta cada especie con las categorías de uso reportadas.",
+        "app_interviews_alt": "La pestaña Entrevistas de la aplicación de campo: la última sincronización, lo que queda por enviar y las entrevistas guardadas en el teléfono.",
+        "app_record_alt": "Un registro de campo en la aplicación: un ejemplar recolectado de flor de muerto, con su número de colecta y su fotografía."
     },
     "about": {
         "welcome": "Sistematizar el conocimiento sobre las plantas útiles",

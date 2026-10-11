@@ -1,0 +1,42 @@
+---
+import { useTranslations, type Locale } from '../i18n';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+/*
+ * The field app as it is: two screens taken from the iPhone simulator in the
+ * page's language, with the example study's interviews and a field record on
+ * the device (see docs/app-screenshots.md). The second sits lower beside the
+ * first, and steps aside on narrow screens.
+ */
+const screens = [
+    { name: 'interviews', alt: t('shots.app_interviews_alt') },
+    { name: 'record', alt: t('shots.app_record_alt') },
+] as const;
+---
+
+<div class="flex items-start justify-center gap-5">
+    {screens.map((screen, index) => (
+        <figure
+            class:list={[
+                'border-base-300 bg-base-100 w-[13.5rem] shrink-0 overflow-hidden rounded-[2.25rem] border-[6px] shadow-xl sm:w-[14.5rem]',
+                { 'mt-16 hidden sm:block': index === 1 },
+            ]}
+        >
+            <img
+                src={`/site/app/${screen.name}-${locale}.webp`}
+                alt={screen.alt}
+                width="603"
+                height="1311"
+                loading="lazy"
+                decoding="async"
+                class="block h-auto w-full"
+            />
+        </figure>
+    ))}
+</div>
