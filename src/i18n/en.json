@@ -59,13 +59,6 @@
         "capture_point_2": "Local store encrypted with SQLCipher; the app refuses to capture if encryption is unavailable",
         "capture_point_3": "If the connection drops, large files pick up where they left off",
         "capture_point_4": "You always know when you last synced and what is still to be sent",
-        "capture_device_title": "Interviews",
-        "capture_device_synced": "Synced 5 min ago",
-        "capture_device_new": "New interview",
-        "capture_device_record": "New record",
-        "capture_device_project": "Useful plants of San Antonio",
-        "capture_device_interviews": "12 interviews",
-        "capture_device_pending": "3 to send",
         "records_kicker": "Field records",
         "records_title": "Every specimen, with its history",
         "records_desc": "Document observations and collected specimens with coordinates, photographs and a voice note, from the phone or from the web. A record can start from an interview answer that names the plant, and stays linked to it.",
@@ -105,7 +98,9 @@
         "reports_alt": "Table of ethnobiological indices calculated in the platform, with citations, RFC, UV and CI per species.",
         "records_alt": "A project’s list of field records, with observations and collected specimens.",
         "catalog_alt": "The project's species catalog, showing scientific name, authority and botanical family.",
-        "sankey_alt": "Flow diagram connecting each species to the use categories reported for it."
+        "sankey_alt": "Flow diagram connecting each species to the use categories reported for it.",
+        "app_interviews_alt": "The field app's Interviews tab: when it last synced, what is still to send and the interviews saved on the phone.",
+        "app_record_alt": "A field record in the app: a collected marigold specimen, with its collection number and its photograph."
     },
     "about": {
         "welcome": "Systematising knowledge about useful plants",
