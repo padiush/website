@@ -1,0 +1,28 @@
+# Local tooling. Node runs in a container, so nothing needs installing on the
+# host:
+#
+#   docker compose run --rm node npm ci
+#   docker compose run --rm node npm run build
+#   docker compose up -d web        # serves dist/ on http://127.0.0.1:4321
+#
+# `npm run dev` also works inside the node service; publish its port with an
+# override if you want the live-reloading server instead of the built site.
+services:
+    node:
+        image: node:22
+        working_dir: /app
+        user: '${UID:-1000}:${GID:-1000}'
+        environment:
+            HOME: /tmp
+            ASTRO_TELEMETRY_DISABLED: '1'
+        volumes:
+            - .:/app
+        profiles: [tools]
+
+    web:
+        image: nginx:1.29-alpine
+        volumes:
+            - ./dist:/usr/share/nginx/html:ro
+            - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+        ports:
+            - '127.0.0.1:${SITE_PORT:-4321}:80'
