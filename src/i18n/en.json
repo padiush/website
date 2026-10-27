@@ -32,7 +32,8 @@
     },
     "store": {
         "app_store": "Download on the App Store",
-        "google_play": "Get it on Google Play"
+        "google_play": "Get it on Google Play",
+        "trademarks": "Apple and App Store are trademarks of Apple Inc. Google Play and the Google Play logo are trademarks of Google LLC."
     },
     "home": {
         "hero_title": "From field notebook to publishable data",
