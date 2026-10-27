@@ -43,11 +43,14 @@ docker compose run --rm node npm test
 - `public/site/shots/` — platform screenshots, per language and theme, taken
   from the platform's example study by
   [scripts/capture-screenshots.mjs](scripts/capture-screenshots.mjs).
-- `public/site/badges/` — Apple's App Store badges, unmodified, per language.
+- `public/site/badges/` — Apple's App Store and Google's Google Play badges,
+  per language: Apple's unmodified, Google's with only the transparent margin
+  trimmed.
 
 ## Licence
 
 The code is free software under the
 [GNU Affero General Public License v3.0 or later](LICENSE), like the platform.
-The Padiush name and logo, the team's photographs, and Apple's badge artwork
-are not covered by that licence and may not be reused without permission.
+The Padiush name and logo, the team's photographs, and Apple's and Google's
+badge artwork are not covered by that licence and may not be reused without
+permission.

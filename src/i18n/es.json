@@ -32,7 +32,7 @@
     },
     "store": {
         "app_store": "Descárgala en el App Store",
-        "play_soon": "Próximamente en Google Play"
+        "google_play": "Descargar en Google Play"
     },
     "home": {
         "hero_title": "Del cuaderno de campo a datos listos para publicar",
