@@ -1,14 +1,17 @@
 ---
-import { APP_STORE_URL, useTranslations, type Locale } from '../i18n';
+import {
+    APP_STORE_URL,
+    PLAY_STORE_URL,
+    useTranslations,
+    type Locale,
+} from '../i18n';
 
 interface Props {
     locale: Locale;
-    /** `onPrimary` when the badges sit on the green header colour. */
-    tone?: 'default' | 'onPrimary';
     class?: string;
 }
 
-const { locale, tone = 'default', class: className = '' } = Astro.props;
+const { locale, class: className = '' } = Astro.props;
 const t = useTranslations(locale);
 
 /*
@@ -16,8 +19,10 @@ const t = useTranslations(locale);
  * light theme and white on the dark one, as Apple's guidelines allow. 40px is
  * the smallest on-screen height they permit.
  *
- * Google Play's badge may only point at a published listing, so until the app
- * is public there it is announced in plain text instead.
+ * Google's badge in the visitor's language, with only its transparent margin
+ * trimmed so it lines up with Apple's. Google makes it in black alone, and
+ * asks that it be no smaller than the other stores' badges, so it shares their
+ * height.
  */
 const badge = (colour: 'black' | 'white') =>
     `/site/badges/app-store-${locale}-${colour}.svg`;
@@ -45,14 +50,17 @@ const badge = (colour: 'black' | 'white') =>
             class="hidden h-10 w-auto [[data-theme=padiushdark]_&]:block"
         />
     </a>
-    <span
-        class:list={[
-            'inline-flex h-10 items-center rounded-[0.4rem] border border-dashed px-3 text-sm font-medium',
-            tone === 'onPrimary'
-                ? 'border-primary-content/50 text-primary-content/85'
-                : 'border-base-content/30 text-base-content/70',
-        ]}
+    <a
+        href={PLAY_STORE_URL}
+        class="inline-block rounded-[0.4rem] focus-visible:outline-2 focus-visible:outline-offset-2"
+        rel="noopener"
     >
-        {t('store.play_soon')}
-    </span>
+        <img
+            src={`/site/badges/google-play-${locale}.png`}
+            alt={t('store.google_play')}
+            width="135"
+            height="40"
+            class="block h-10 w-auto max-w-none"
+        />
+    </a>
 </div>

@@ -50,6 +50,8 @@ export const PLATFORM = {
 } as const;
 
 export const APP_STORE_URL = 'https://apps.apple.com/app/id6819470290';
+export const PLAY_STORE_URL =
+    'https://play.google.com/store/apps/details?id=com.padiushbio.companion';
 
 const STRINGS = { es, en, pt } satisfies Record<Locale, typeof es>;
 

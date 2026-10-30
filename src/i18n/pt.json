@@ -32,7 +32,8 @@
     },
     "store": {
         "app_store": "Baixar na App Store",
-        "play_soon": "Em breve no Google Play"
+        "google_play": "Disponível no Google Play",
+        "trademarks": "Apple e App Store são marcas da Apple Inc. Google Play e o logotipo do Google Play são marcas da Google LLC."
     },
     "home": {
         "hero_title": "Do caderno de campo a dados prontos para publicar",
